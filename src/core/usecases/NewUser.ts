@@ -11,11 +11,12 @@ export default class NewUser {
         return this.userRepo.find(id);
     }
 
-    async exec(name: string, email: string) {
+    async exec(id: string, name: string, email: string) {
         if(email.includes("@test.com")) {
-            const user = new User(uuid(), name, email);
-
-            return await this.userRepo.create(user);
+            const createdUser = await this.userRepo.create(id, name, email);
+            return {
+                res: createdUser        
+            }
         }
         throw Error("Please use legal email");
     }

@@ -5,6 +5,8 @@ import NewUser from "./NewUser";
 test("Should be create a new user", async () => {
     const userRepositoryMemory = new UserRepositoryMemory();
     const newUser = new NewUser(userRepositoryMemory);
-    const aNewUser = await newUser.exec("Willian", "teste@test.com");
-    expect(aNewUser).toBe(true);
+    let id = uuid();
+    const aNewUser = await newUser.exec(id, "Willian", "teste@test.com");
+    console.log(await newUser.find(id));
+    expect(aNewUser.res).toBe(true);
 });

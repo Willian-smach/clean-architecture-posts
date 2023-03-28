@@ -1,5 +1,5 @@
 import { uuid } from "uuidv4";
-import DataUserAdapter from "../../adapter/DataUserAdapter";
+import UserAdapter from "../../adapter/UserAdapter";
 import User from "../../core/entities/User";
 import UserRepository from "../../core/repository/UserRepository";
 
@@ -7,11 +7,11 @@ export default class UserRepositoryMemory implements UserRepository {
 
     users: any[] = [];
 
-    async create(user: User): Promise<boolean>{
+    async create(id: string, name: string, email: string): Promise<boolean>{
         const data = await {
-            id: user.id,
-            name: user.name,
-            email: user.email
+            id: id,
+            name: name,
+            email: email
         }
         this.users.push(data);
 
@@ -19,7 +19,7 @@ export default class UserRepositoryMemory implements UserRepository {
     }
     async find(id: string): Promise<User> {
         const userData = await this.users.find(user => user.id === id);
-        const user = DataUserAdapter.create(userData.id, userData.name, userData.email);
+        const user = UserAdapter.create(userData.id, userData.name, userData.email);
         if(user) {
             return Promise.resolve(user);
         }

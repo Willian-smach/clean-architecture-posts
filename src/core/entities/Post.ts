@@ -9,7 +9,8 @@ export default class Post {
     author: User | null = null;
     
 
-    constructor(title: string, content: string, createdAt: Date, updateAt: Date, author: User) {
+    constructor(id: string, title: string, content: string, createdAt: Date, updateAt: Date, author: User) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;

@@ -1,5 +1,6 @@
-import { uuid } from "uuidv4";
+import PostAdapter from "../../adapter/PostAdapter";
 import Post from "../../core/entities/Post";
+import User from "../../core/entities/User";
 import PostRepository from "../../core/repository/PostRepository";
 
 export default class PostRepositoryMemory implements PostRepository {
@@ -14,14 +15,14 @@ export default class PostRepositoryMemory implements PostRepository {
 
     posts = [];
 
-    async create(post: Post): Promise<boolean> {
+    async create(id: string, title: string, content: string, createdAt: Date, updateAt: Date, author: User): Promise<boolean> {
         const data = await {
-            id: uuid(),
-            title: post.title,
-            content: post.content,
-            creatAt: post.createdAt,
-            updateAt: post.updateAt,
-            author: post.author
+            id: id,
+            title: title,
+            content: content,
+            creatAt: createdAt,
+            updateAt: updateAt,
+            author: author
         }
         
         this.posts.push(data);
@@ -29,9 +30,9 @@ export default class PostRepositoryMemory implements PostRepository {
     }
     async find(id: string): Promise<Post> {
         const postData = await this.posts.find(post => post.id === id);
-        //const post = DataUserAdapter.create(userData.id, userData.name, userData.email);
-        if(postData) {
-            return Promise.resolve(postData);
+        const post = PostAdapter.create(postData.id, postData.title, postData.content, postData.creatAt, postData.update, postData.author);
+        if(post) {
+            return Promise.resolve(post);
         }
         throw new Error("Post not found!");
     }
